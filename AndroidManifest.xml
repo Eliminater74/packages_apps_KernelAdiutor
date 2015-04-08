@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.grarak.kerneladiutor"
     android:versionCode="1"
-    android:versionName="0.8.9.5">
+    android:versionName="0.8.9.5.1">
 
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
