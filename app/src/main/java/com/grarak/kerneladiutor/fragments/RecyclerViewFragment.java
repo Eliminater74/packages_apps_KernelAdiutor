@@ -16,12 +16,12 @@
 
 package com.grarak.kerneladiutor.fragments;
 
-import android.app.Fragment;
 import android.content.res.Configuration;
 import android.graphics.LightingColorFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +34,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.grarak.kerneladiutor.R;
 import com.grarak.kerneladiutor.elements.DAdapter;
@@ -93,7 +92,6 @@ public abstract class RecyclerViewFragment extends Fragment implements IRecycler
             }
         });
         setRecyclerView(recyclerView);
-        setLayout();
         recyclerView.setPadding(5, 5, 5, 5);
 
         progressBar = new ProgressBar(getActivity());
@@ -197,16 +195,7 @@ public abstract class RecyclerViewFragment extends Fragment implements IRecycler
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setLayout();
         layoutManager.setSpanCount(getSpan());
-    }
-
-    private void setLayout() {
-        if (applyOnBootLayout != null) {
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) applyOnBootLayout.getLayoutParams();
-            layoutParams.height = Utils.getActionBarHeight(getActivity());
-            applyOnBootLayout.requestLayout();
-        }
     }
 
     public ActionBar getActionBar() {
