@@ -44,8 +44,7 @@ interface IViewPager {
 /**
  * Created by willi on 07.04.15.
  */
-public abstract class ViewPagerFragment extends Fragment implements IViewPager {
-
+public abstract class ViewPagerFragment extends BaseFragment implements IViewPager {
     private Adapter adapter;
     private CustomViewPager mViewPager;
     protected View applyOnBootLayout;
@@ -120,10 +119,15 @@ public abstract class ViewPagerFragment extends Fragment implements IViewPager {
         return view;
     }
 
-    public abstract void onSwipe(int page);
+    public void onSwipe(int page) {
+    }
 
     public void setCurrentItem(int item) {
         mViewPager.setCurrentItem(item);
+    }
+
+    public int getCurrentPage() {
+        return mViewPager.getCurrentItem();
     }
 
     public void allowSwipe(boolean swipe) {
@@ -175,6 +179,11 @@ public abstract class ViewPagerFragment extends Fragment implements IViewPager {
 
     public ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
     }
 
 }

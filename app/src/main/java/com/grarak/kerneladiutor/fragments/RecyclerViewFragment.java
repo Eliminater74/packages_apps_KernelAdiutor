@@ -21,7 +21,6 @@ import android.graphics.LightingColorFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +34,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 
+import com.grarak.kerneladiutor.MainActivity;
 import com.grarak.kerneladiutor.R;
 import com.grarak.kerneladiutor.elements.DAdapter;
 import com.grarak.kerneladiutor.utils.Constants;
@@ -52,8 +52,7 @@ interface IRecyclerView {
 /**
  * Created by willi on 22.12.14.
  */
-public abstract class RecyclerViewFragment extends Fragment implements IRecyclerView {
-
+public abstract class RecyclerViewFragment extends BaseFragment implements IRecyclerView {
     protected View view;
     protected LayoutInflater inflater;
     protected ViewGroup container;
@@ -207,8 +206,11 @@ public abstract class RecyclerViewFragment extends Fragment implements IRecycler
     }
 
     public void showApplyOnBoot(boolean visible) {
-        getParentView(R.layout.recyclerview_vertical).findViewById(R.id.apply_on_boot_layout).setVisibility(
-                visible ? View.VISIBLE : View.GONE);
+        try {
+            getParentView(R.layout.recyclerview_vertical).findViewById(R.id.apply_on_boot_layout).setVisibility(
+                    visible ? View.VISIBLE : View.GONE);
+        } catch (NullPointerException ignored) {
+        }
     }
 
     public int getSpan() {
@@ -241,6 +243,11 @@ public abstract class RecyclerViewFragment extends Fragment implements IRecycler
     public void onDestroy() {
         super.onDestroy();
         if (hand != null) hand.removeCallbacks(run);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
     }
 
     private class CardViewTask extends AsyncTask<Bundle, Bundle, Bundle> {
@@ -284,8 +291,7 @@ public abstract class RecyclerViewFragment extends Fragment implements IRecycler
 
             try {
                 ((ViewGroup) progressBar.getParent()).removeView(progressBar);
-            } catch (NullPointerException e) {
-                e.printStackTrace();
+            } catch (NullPointerException ignored) {
             }
             try {
                 if (isAdded()) postInitCardView(savedInstanceState);
