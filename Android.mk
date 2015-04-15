@@ -11,8 +11,8 @@ LOCAL_SRC_FILES += $(call all-java-files-under, ../FloatingActionButton/library/
 
 LOCAL_RESOURCE_DIR := packages/apps/KernelAdiutor/app/src/main/res
 LOCAL_RESOURCE_DIR += packages/apps/FloatingActionButton/library/src/main/res
-LOCAL_RESOURCE_DIR += frameworks/support/v7/appcompat/res
-LOCAL_RESOURCE_DIR += frameworks/support/v7/cardview/res
+LOCAL_RESOURCE_DIR += packages/apps/KernelAdiutor/res/appcompat
+LOCAL_RESOURCE_DIR += packages/apps/KernelAdiutor/res/cardview
 
 LOCAL_AAPT_INCLUDE_ALL_RESOURCES := true
 LOCAL_AAPT_FLAGS := --auto-add-overlay
@@ -24,18 +24,17 @@ LOCAL_AAPT_FLAGS += --extra-packages android.support.annotations
 
 LOCAL_ASSET_DIR := packages/apps/KernelAdiutor/app/src/main/assets
 
-LOCAL_STATIC_JAVA_LIBRARIES +=  android-support-v4 \
-                                android-support-v7-cardview \
-                                android-support-v7-recyclerview \
-                                android-support-v7-appcompat \
-                                android-support-annotations
-
-LOCAL_STATIC_JAVA_LIBRARIES += libdashclock
+LOCAL_STATIC_JAVA_LIBRARIES += libdashclock libsupportv4 libcardviewv7 librecyclerviewv7 libappcompatv7 libannotations
 
 include $(BUILD_PACKAGE)
 
 include $(CLEAR_VARS)
 
-LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := libdashclock:lib/dashclock-api-r2.0.jar
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := libdashclock:lib/dashclock-api-r2.0.jar \
+                                        libsupportv4:lib/android-support-v4.jar \
+                                        libcardviewv7:lib/android-support-v7-cardview.jar \
+                                        librecyclerviewv7:lib/android-support-v7-recyclerview.jar \
+                                        libappcompatv7:lib/android-support-v7-appcompat.jar \
+                                        libannotations:lib/android-support-annotations.jar
 
 include $(BUILD_MULTI_PREBUILT)
