@@ -101,6 +101,8 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
 
         private PopupCardItem.DPopupCard mMcPowerSavingCard;
 
+        private SwitchCompatCardItem.DSwitchCompatCard mPowerSavingWqCard;
+
         private PopupCardItem.DPopupCard mCFSSchedulerCard;
 
         private SeekBarCardView.DSeekBarCardView mTempLimitCard;
@@ -134,6 +136,7 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
             }
             governorInit();
             if (CPU.hasMcPowerSaving()) mcPowerSavingInit();
+            if (CPU.hasPowerSavingWq()) powerSavingWqInit();
             if (CPU.hasCFSScheduler()) cfsSchedulerInit();
             if (CPU.hasTempLimit()) tempLimitInit();
             if (CPU.hasCpuBoost()) cpuBoostInit();
@@ -234,6 +237,15 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
             mMcPowerSavingCard.setOnDPopupCardListener(this);
 
             addView(mMcPowerSavingCard);
+        }
+
+        private void powerSavingWqInit() {
+            mPowerSavingWqCard = new SwitchCompatCardItem.DSwitchCompatCard();
+            mPowerSavingWqCard.setDescription(getString(R.string.power_saving_wq));
+            mPowerSavingWqCard.setChecked(CPU.isPowerSavingWqActive());
+            mPowerSavingWqCard.setOnDSwitchCompatCardListener(this);
+
+            addView(mPowerSavingWqCard);
         }
 
         private void cfsSchedulerInit() {
@@ -402,6 +414,8 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
                 CPU.activateCpuBoost(checked, getActivity());
             else if (dSwitchCompatCard == mCpuBoostDebugMaskCard)
                 CPU.activateCpuBoostDebugMask(checked, getActivity());
+            else if (dSwitchCompatCard == mPowerSavingWqCard)
+                CPU.activatePowerSavingWq(checked, getActivity());
         }
 
         @Override
