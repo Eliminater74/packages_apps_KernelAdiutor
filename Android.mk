@@ -30,11 +30,11 @@ include $(BUILD_PACKAGE)
 
 include $(CLEAR_VARS)
 
-LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := libdashclock:lib/dashclock-api-r2.0.jar \
-                                        libsupportv4:lib/android-support-v4.jar \
-                                        libcardviewv7:lib/android-support-v7-cardview.jar \
-                                        librecyclerviewv7:lib/android-support-v7-recyclerview.jar \
-                                        libappcompatv7:lib/android-support-v7-appcompat.jar \
-                                        libannotations:lib/android-support-annotations.jar
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := libdashclock:libs/dashclock-api-r2.0.jar \
+                                        libsupportv4:libs/android-support-v4.jar \
+                                        libcardviewv7:libs/android-support-v7-cardview.jar \
+                                        librecyclerviewv7:libs/android-support-v7-recyclerview.jar \
+                                        libappcompatv7:libs/android-support-v7-appcompat.jar \
+                                        libannotations:libs/android-support-annotations.jar
 
 include $(BUILD_MULTI_PREBUILT)
