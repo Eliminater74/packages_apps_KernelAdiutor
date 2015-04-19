@@ -52,9 +52,9 @@ public class Control implements Constants {
 
     }
 
-    private static void run(String command, String sys, Context context) {
+    private static void run(String command, String path, Context context) {
         RootUtils.runCommand(command);
-        commandSaver(context, sys, command);
+        commandSaver(context, path, command);
     }
 
     private static int getChecksum(int arg1, int arg2) {
@@ -78,6 +78,10 @@ public class Control implements Constants {
 
     private static void runSelinux(int value, Context context) {
         run("setenforce " + value, SELINUX, context);
+    }
+
+    public static void setProp(String key, String value, Context context) {
+        run("setprop " + key + " " + value, key, context);
     }
 
     public static void startService(String service, boolean save, Context context) {
