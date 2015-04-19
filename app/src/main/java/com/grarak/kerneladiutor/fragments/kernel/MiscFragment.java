@@ -52,6 +52,7 @@ public class MiscFragment extends RecyclerViewFragment implements PopupCardItem.
 
     private PopupCardItem.DPopupCard mSelinuxCard;
 
+    private SwitchCompatCardItem.DSwitchCompatCard mFsyncCard;
     private SwitchCompatCardItem.DSwitchCompatCard mDynamicFsyncCard;
 
     private PopupCardItem.DPopupCard mPowerSuspendModeCard;
@@ -77,7 +78,7 @@ public class MiscFragment extends RecyclerViewFragment implements PopupCardItem.
         if (Misc.hasMsmHsicHostWakeLock()) msmHsicHostWakeLockInit();
         if (Misc.hasLoggerEnable()) loggerInit();
         if (Misc.hasSelinux()) selinuxInit();
-        if (Misc.hasDynamicFsync()) dynamicFsyncInit();
+        fsyncInit();
         if (Misc.hasPowerSuspend()) powersuspendInit();
         networkInit();
     }
@@ -149,14 +150,26 @@ public class MiscFragment extends RecyclerViewFragment implements PopupCardItem.
         addView(mSelinuxCard);
     }
 
-    private void dynamicFsyncInit() {
-        mDynamicFsyncCard = new SwitchCompatCardItem.DSwitchCompatCard();
-        mDynamicFsyncCard.setTitle(getString(R.string.dynamic_fsync));
-        mDynamicFsyncCard.setDescription(getString(R.string.dynamic_fsync_summary));
-        mDynamicFsyncCard.setChecked(Misc.isDynamicFsyncActive());
-        mDynamicFsyncCard.setOnDSwitchCompatCardListener(this);
+    private void fsyncInit() {
+        if (Misc.hasFsync()) {
+            mFsyncCard = new SwitchCompatCardItem.DSwitchCompatCard();
+            mFsyncCard.setTitle(getString(R.string.fsync));
+            mFsyncCard.setDescription(getString(R.string.fsync_summary));
+            mFsyncCard.setChecked(Misc.isFsyncActive());
+            mFsyncCard.setOnDSwitchCompatCardListener(this);
 
-        addView(mDynamicFsyncCard);
+            addView(mFsyncCard);
+        }
+
+        if (Misc.hasDynamicFsync()) {
+            mDynamicFsyncCard = new SwitchCompatCardItem.DSwitchCompatCard();
+            mDynamicFsyncCard.setTitle(getString(R.string.dynamic_fsync));
+            mDynamicFsyncCard.setDescription(getString(R.string.dynamic_fsync_summary));
+            mDynamicFsyncCard.setChecked(Misc.isDynamicFsyncActive());
+            mDynamicFsyncCard.setOnDSwitchCompatCardListener(this);
+
+            addView(mDynamicFsyncCard);
+        }
     }
 
 
@@ -273,6 +286,8 @@ public class MiscFragment extends RecyclerViewFragment implements PopupCardItem.
             Misc.activateMsmHsicHostWakeLock(checked, getActivity());
         else if (dSwitchCompatCard == mLoggerEnableCard)
             Misc.activateLogger(checked, getActivity());
+        else if (dSwitchCompatCard == mFsyncCard)
+            Misc.activateFsync(checked, getActivity());
         else if (dSwitchCompatCard == mDynamicFsyncCard)
             Misc.activateDynamicFsync(checked, getActivity());
         else if (dSwitchCompatCard == mOldPowerSuspendStateCard)
