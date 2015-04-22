@@ -187,7 +187,7 @@ public class RecoveryFragment extends RecyclerViewFragment {
 
     @Override
     public void postInitCardView(Bundle savedInstanceState) {
-        Utils.circleAnimate(mFlashNowButton);
+        Utils.circleAnimate(mFlashNowButton, 0, mFlashNowButton.getHeight());
     }
 
     private void addAction(Recovery.RECOVERY_COMMAND recovery_command, File file) {

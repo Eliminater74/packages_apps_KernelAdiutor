@@ -97,17 +97,12 @@ public abstract class RecyclerViewFragment extends BaseFragment implements IRecy
             applyOnBootView = (SwitchCompat) view.findViewById(R.id.apply_on_boot_view);
             if (applyOnBootView != null) {
                 applyOnBootView.setChecked(Utils.getBoolean(getClassName() + "onboot", false, getActivity()));
-                applyOnBootView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        activateApplyOnBoot(applyOnBootView.isChecked());
-                    }
-                });
-
                 applyOnBootView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        activateApplyOnBoot(isChecked);
+                        Utils.saveBoolean(getClass().getSimpleName() + "onboot", isChecked, getActivity());
+                        Utils.toast(getString(isChecked ? R.string.apply_on_boot_enabled : R.string.apply_on_boot_disabled,
+                                getActionBar().getTitle()), getActivity());
                     }
                 });
             }
@@ -118,7 +113,6 @@ public abstract class RecyclerViewFragment extends BaseFragment implements IRecy
                     @Override
                     public void onClick(View v) {
                         applyOnBootView.setChecked(!applyOnBootView.isChecked());
-                        activateApplyOnBoot(applyOnBootView.isChecked());
                     }
                 });
             }
@@ -140,12 +134,6 @@ public abstract class RecyclerViewFragment extends BaseFragment implements IRecy
 
     public RecyclerView getRecyclerView() {
         return (RecyclerView) getParentView(R.layout.recyclerview_vertical).findViewById(R.id.recycler_view);
-    }
-
-    protected void activateApplyOnBoot(boolean active) {
-        Utils.saveBoolean(getClassName() + "onboot", active, getActivity());
-        Utils.toast(getString(active ? R.string.apply_on_boot_enabled : R.string.apply_on_boot_disabled,
-                getActionBar().getTitle()), getActivity());
     }
 
     public String getClassName() {
