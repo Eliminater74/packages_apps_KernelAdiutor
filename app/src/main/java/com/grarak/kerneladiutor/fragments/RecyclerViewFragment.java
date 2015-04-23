@@ -106,7 +106,6 @@ public abstract class RecyclerViewFragment extends BaseFragment implements IRecy
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, final int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                Log.i(Constants.TAG, dy + "");
 
                 if (changing || onScrollDisappearView == null) return;
                 int y = dy;
