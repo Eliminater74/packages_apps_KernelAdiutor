@@ -124,6 +124,8 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
 
         @Override
         public void initCardView(Bundle savedInstanceState) {
+            onScrollDisappearView = cpuFragment.applyOnBootLayout;
+
             usageInit();
             if (CPU.getFreqs() != null) coreInit();
             if (CPU.hasTemp()) tempInit();
@@ -478,6 +480,11 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
     }
 
     public static class GovernorPart extends PathReaderFragment {
+
+        @Override
+        public void initCardView(Bundle savedInstanceState) {
+            onScrollDisappearView = cpuFragment.applyOnBootLayout;
+        }
 
         @Override
         public String getName() {

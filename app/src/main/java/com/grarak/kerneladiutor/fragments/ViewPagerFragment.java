@@ -80,7 +80,7 @@ public abstract class ViewPagerFragment extends BaseFragment implements IViewPag
             applyOnBootView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Utils.saveBoolean(getClass().getSimpleName() + "onboot", isChecked, getActivity());
+                    Utils.saveBoolean(ViewPagerFragment.this.getClass().getSimpleName() + "onboot", isChecked, getActivity());
                     Utils.toast(getString(isChecked ? R.string.apply_on_boot_enabled : R.string.apply_on_boot_disabled,
                             getActionBar().getTitle()), getActivity());
                 }

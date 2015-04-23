@@ -93,6 +93,8 @@ public class IOFragment extends ViewPagerFragment implements Constants {
 
         @Override
         public void initCardView(Bundle savedInstanceState) {
+            onScrollDisappearView = ioFragment.applyOnBootLayout;
+
             readheads.clear();
             internalStorageInit();
             if (IO.hasExternalStorage())
@@ -185,6 +187,11 @@ public class IOFragment extends ViewPagerFragment implements Constants {
     }
 
     public static class SchedulerPart extends PathReaderFragment {
+
+        @Override
+        public void initCardView(Bundle savedInstanceState) {
+            onScrollDisappearView = ioFragment.applyOnBootLayout;
+        }
 
         @Override
         public String getName() {
