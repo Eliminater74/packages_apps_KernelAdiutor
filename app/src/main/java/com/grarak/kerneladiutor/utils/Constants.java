@@ -553,7 +553,7 @@ public interface Constants {
     String MSM_HSIC_WAKELOCK_DIVIDER = "/sys/module/xhci_hcd/parameters/wl_divide";
 
     // Logging
-    String LOGGER_ENABLED = "/sys/module/logger/parameters/enabled";
+    String LOGGER_ENABLED = "/sys/module/logger/parameters/log_enabled";
 
     // SELinux
     String SELINUX = "selinux";
