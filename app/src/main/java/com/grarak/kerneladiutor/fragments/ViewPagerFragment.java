@@ -116,7 +116,7 @@ public abstract class ViewPagerFragment extends BaseFragment implements IViewPag
                 mViewPager.setOffscreenPageLimit(fragments.size());
                 mViewPager.setCurrentItem(0);
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         return view;
     }

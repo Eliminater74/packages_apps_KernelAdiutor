@@ -201,7 +201,7 @@ public abstract class RecyclerViewFragment extends BaseFragment implements IRecy
         if (!showApplyOnBoot()) showApplyOnBoot(false);
 
         showOnScrollDisappear();
-        new CardViewTask().execute(savedInstanceState);
+        new CardViewTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, savedInstanceState);
 
         return view;
     }
