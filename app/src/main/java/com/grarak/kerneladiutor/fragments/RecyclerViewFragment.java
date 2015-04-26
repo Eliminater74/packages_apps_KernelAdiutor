@@ -383,15 +383,16 @@ public abstract class RecyclerViewFragment extends BaseFragment implements IRecy
             } catch (NullPointerException ignored) {
             }
             try {
-                if (isAdded()) postInitCardView(savedInstanceState);
+                if (isAdded()) {
+                    postInitCardView(savedInstanceState);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        if (backgroundView != null) Utils.circleAnimate(backgroundView, 0, 0);
+                        if (fabView != null)
+                            Utils.circleAnimate(fabView, fabView.getWidth() / 2, fabView.getHeight() / 2);
+                    }
+                }
             } catch (IllegalStateException e) {
                 e.printStackTrace();
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if (backgroundView != null) Utils.circleAnimate(backgroundView, 0, 0);
-                if (fabView != null)
-                    Utils.circleAnimate(fabView, fabView.getWidth() / 2, fabView.getHeight() / 2);
             }
         }
     }
