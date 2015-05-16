@@ -105,7 +105,7 @@ public class ThermalFragment extends RecyclerViewFragment implements SwitchCardV
 
     private void thermaldInit() {
         mThermaldCard = new SwitchCardView.DSwitchCard();
-        mThermaldCard.setTitle(getString(R.string.thermald_summary));
+        mThermaldCard.setTitle(getString(R.string.thermald));
         mThermaldCard.setDescription(getString(R.string.thermald_summary));
         mThermaldCard.setChecked(Thermal.isThermaldActive());
         mThermaldCard.setOnDSwitchCardListener(this);
@@ -476,6 +476,7 @@ public class ThermalFragment extends RecyclerViewFragment implements SwitchCardV
         if (views.size() > 0) {
             DividerCardView.DDividerCard mMsmThermalDividerCard = new DividerCardView.DDividerCard();
             mMsmThermalDividerCard.setText(getString(R.string.msm_thermal));
+            mMsmThermalDividerCard.setDescription(getString(R.string.msm_thermal_summary));
             addView(mMsmThermalDividerCard);
 
             addAllViews(views);
