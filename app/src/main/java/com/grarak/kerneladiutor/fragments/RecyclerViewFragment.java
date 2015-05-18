@@ -61,7 +61,6 @@ public abstract class RecyclerViewFragment extends BaseFragment implements IRecy
     protected ViewGroup container;
 
     private ProgressBar progressBar;
-    private final List<DAdapter.DView> views = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected View applyOnBootLayout;
     protected TextView applyOnBootText;
@@ -101,66 +100,66 @@ public abstract class RecyclerViewFragment extends BaseFragment implements IRecy
         int padding = getResources().getDimensionPixelSize(R.dimen.recyclerview_padding);
         recyclerView.setPadding(padding, 0, padding, 0);
 
-        if (Utils.getBoolean("hideapplyonboot", true, getActivity()))
-            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                private int scrollMargin = 10;
-                private boolean changing;
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private int scrollMargin = 10;
+            private boolean changing;
 
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, final int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, final int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-                    try {
-                        if (changing || onScrollDisappearView == null) return;
-                        int y = dy;
-                        if (y < 0) y *= -1;
-                        if (y < 20) return;
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                changing = true;
-                                int actionBarHeight = Utils.getActionBarHeight(getActivity());
-                                for (int i = 0; i <= actionBarHeight / scrollMargin; i++) {
-                                    try {
-                                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)
-                                                onScrollDisappearView.getLayoutParams();
-
-                                        int margin = params.topMargin;
-                                        if (dy < 0 && margin < 0)
-                                            margin += scrollMargin;
-                                        else if (dy > 0 && margin > -actionBarHeight)
-                                            margin -= scrollMargin;
-
-                                        if (margin > 0) margin = 0;
-                                        if (margin < -actionBarHeight + scrollMargin)
-                                            margin = -actionBarHeight;
-
-                                        params.topMargin = margin;
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                onScrollDisappearView.requestLayout();
-                                            }
-                                        });
-
-                                        Thread.sleep(17);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
+                if (!Utils.getBoolean("hideapplyonboot", true, getActivity())) return;
+                try {
+                    if (changing || onScrollDisappearView == null) return;
+                    int y = dy;
+                    if (y < 0) y *= -1;
+                    if (y < 20) return;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            changing = true;
+                            int actionBarHeight = Utils.getActionBarHeight(getActivity());
+                            for (int i = 0; i <= actionBarHeight / scrollMargin; i++) {
                                 try {
-                                    Thread.sleep(100);
-                                    changing = false;
+                                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)
+                                            onScrollDisappearView.getLayoutParams();
+
+                                    int margin = params.topMargin;
+                                    if (dy < 0 && margin < 0)
+                                        margin += scrollMargin;
+                                    else if (dy > 0 && margin > -actionBarHeight)
+                                        margin -= scrollMargin;
+
+                                    if (margin > 0) margin = 0;
+                                    if (margin < -actionBarHeight + scrollMargin)
+                                        margin = -actionBarHeight;
+
+                                    params.topMargin = margin;
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            onScrollDisappearView.requestLayout();
+                                        }
+                                    });
+
+                                    Thread.sleep(17);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
                             }
-                        }).start();
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    }
+                            try {
+                                Thread.sleep(100);
+                                changing = false;
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
-            });
+            }
+        });
 
         if (showApplyOnBoot()) {
             applyOnBootView = (SwitchCompat) view.findViewById(R.id.apply_on_boot_view);
@@ -239,32 +238,32 @@ public abstract class RecyclerViewFragment extends BaseFragment implements IRecy
     }
 
     public void addView(DAdapter.DView view) {
-        if (views.indexOf(view) < 0) {
-            views.add(view);
-            adapter.notifyItemInserted(views.indexOf(view));
+        if (adapter.DViews.indexOf(view) < 0) {
+            adapter.DViews.add(view);
+            adapter.notifyDataSetChanged();
         }
     }
 
     public void removeView(DAdapter.DView view) {
-        int position = views.indexOf(view);
+        int position = adapter.DViews.indexOf(view);
         if (position > -1) {
-            views.remove(position);
+            adapter.DViews.remove(position);
             adapter.notifyItemRemoved(position);
         }
     }
 
     public void removeAllViews() {
-        views.clear();
+        adapter.DViews.clear();
         adapter.notifyDataSetChanged();
     }
 
     public void addAllViews(List<DAdapter.DView> views) {
-        this.views.addAll(views);
+        adapter.DViews.addAll(views);
         adapter.notifyDataSetChanged();
     }
 
     public int getCount() {
-        return views.size();
+        return adapter.DViews.size();
     }
 
     public void animateRecyclerView() {
@@ -354,8 +353,7 @@ public abstract class RecyclerViewFragment extends BaseFragment implements IRecy
                     hand = new Handler();
                 }
             });
-            views.clear();
-            adapter = new DAdapter.Adapter(views);
+            adapter = new DAdapter.Adapter(new ArrayList<DAdapter.DView>());
             try {
                 if (isAdded()) preInitCardView();
             } catch (IllegalStateException e) {
