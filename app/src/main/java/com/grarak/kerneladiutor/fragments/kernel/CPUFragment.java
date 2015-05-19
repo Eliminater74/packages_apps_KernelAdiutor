@@ -102,8 +102,6 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
 
         private PopupCardItem.DPopupCard mCFSSchedulerCard;
 
-        private SeekBarCardView.DSeekBarCardView mTempLimitCard;
-
         private SwitchCardView.DSwitchCard mCpuBoostEnableCard;
         private SwitchCardView.DSwitchCard mCpuBoostDebugMaskCard;
         private SeekBarCardView.DSeekBarCardView mCpuBoostMsCard;
@@ -136,7 +134,6 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
             if (CPU.hasMcPowerSaving()) mcPowerSavingInit();
             if (CPU.hasPowerSavingWq()) powerSavingWqInit();
             if (CPU.hasCFSScheduler()) cfsSchedulerInit();
-            if (CPU.hasTempLimit()) tempLimitInit();
             if (CPU.hasCpuBoost()) cpuBoostInit();
         }
 
@@ -264,16 +261,6 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
             addView(mCFSSchedulerCard);
         }
 
-        private void tempLimitInit() {
-            mTempLimitCard = new SeekBarCardView.DSeekBarCardView(CPU.getTempLimitList());
-            mTempLimitCard.setTitle(getString(R.string.temp_limit));
-            mTempLimitCard.setDescription(getString(R.string.temp_limit_summary));
-            mTempLimitCard.setProgress(CPU.getCurTempLimit() - CPU.getTempLimitMin());
-            mTempLimitCard.setOnDSeekBarCardListener(this);
-
-            addView(mTempLimitCard);
-        }
-
         private void cpuBoostInit() {
             List<DAdapter.DView> views = new ArrayList<>();
             if (CPU.hasCpuBoostEnable()) {
@@ -309,7 +296,7 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
                 views.add(mCpuBoostMsCard);
             }
 
-            if (CPU.hasCpuBoostSyncThreshold()) {
+            if (CPU.hasCpuBoostSyncThreshold() && CPU.getFreqs() != null) {
                 List<String> list = new ArrayList<>();
                 list.add(getString(R.string.disabled));
                 for (int freq : CPU.getFreqs())
@@ -338,7 +325,7 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
                 views.add(mCpuBoostInputMsCard);
             }
 
-            if (CPU.hasCpuBoostInputFreq()) {
+            if (CPU.hasCpuBoostInputFreq() && CPU.getFreqs() != null) {
                 List<String> list = new ArrayList<>();
                 list.add(getString(R.string.disabled));
                 for (int freq : CPU.getFreqs())
@@ -406,9 +393,7 @@ public class CPUFragment extends ViewPagerFragment implements Constants {
 
         @Override
         public void onStop(SeekBarCardView.DSeekBarCardView dSeekBarCardView, int position) {
-            if (dSeekBarCardView == mTempLimitCard)
-                CPU.setTempLimit(position + CPU.getTempLimitMin(), getActivity());
-            else if (dSeekBarCardView == mCpuBoostMsCard)
+            if (dSeekBarCardView == mCpuBoostMsCard)
                 CPU.setCpuBoostMs(position * 10, getActivity());
             else if (dSeekBarCardView == mCpuBoostInputMsCard)
                 CPU.setCpuBoostInputMs(position * 10, getActivity());
