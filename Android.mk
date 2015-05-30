@@ -12,6 +12,7 @@ LOCAL_RESOURCE_DIR := packages/apps/KernelAdiutor/app/src/main/res
 LOCAL_RESOURCE_DIR += packages/apps/FloatingActionButton/library/src/main/res
 LOCAL_RESOURCE_DIR += packages/apps/KernelAdiutor/res/appcompat
 LOCAL_RESOURCE_DIR += packages/apps/KernelAdiutor/res/cardview
+LOCAL_RESOURCE_DIR += packages/apps/KernelAdiutor/res/recyclerview
 
 LOCAL_AAPT_INCLUDE_ALL_RESOURCES := true
 LOCAL_AAPT_FLAGS := --auto-add-overlay
